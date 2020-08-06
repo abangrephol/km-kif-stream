@@ -20,4 +20,6 @@ RUN which ffmpeg
 
 EXPOSE 8000
 
+EXPOSE 8080
+
 EXPOSE 1935
