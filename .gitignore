@@ -3,3 +3,4 @@ node_modules
 *.log
 media
 .env
+package-lock.json
