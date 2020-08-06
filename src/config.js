@@ -9,6 +9,7 @@ module.exports = {
   http: {
     port: 8000,
     allow_origin: '*',
+    webroot: "admin",
     mediaroot: process.env.MEDIA_ROOT || '/app/media',
   },
   fission: {
