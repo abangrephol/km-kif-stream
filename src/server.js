@@ -10,11 +10,9 @@ var tokens = {}
 
 const parseStreamName = streamPath => {
   return streamPath
-    .replace('/hls_1080', '')
-    .replace('/hls_720p', '')
-    .replace('/hls_480p/', '')
-    .replace('/hls_360p/', '')
-    .replace('/stream/', '')
+    .replace('/stream_720', '')
+    .replace('/stream_480/', '')
+    .replace('/stream_360/', '')
 }
 
 nms.on('prePublish', async (id, StreamPath, args) => {
@@ -22,7 +20,7 @@ nms.on('prePublish', async (id, StreamPath, args) => {
   console.log(`${streamName} has started streaming`)
   if (args.streamKey && args.streamToken) {
     tokens[streamName] = {
-      app: 'stream',
+      app: 'live',
       streamKey: args.streamKey,
       streamToken: args.streamToken,
     }
@@ -42,7 +40,7 @@ nms.on('prePublish', async (id, StreamPath, args) => {
 })
 
 nms.on('postPublish', async (_id, StreamPath, _args) => {
-  if (StreamPath.indexOf('hls_') != -1) {
+  if (StreamPath.indexOf('stream_') == -1) {
     const name = StreamPath.split('/').pop()
     createPlaylist(name)
   }
