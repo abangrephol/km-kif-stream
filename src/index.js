@@ -9,6 +9,8 @@ app.set('trust proxy', true);
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
 
+app.use(express.static(path.resolve(__dirname, '../public')));
+
 app.get('/', function(req, res) {
     res.render('pages/index');
 });

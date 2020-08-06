@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Live Streaming</title>
+    <link href="https://unpkg.com/video.js/dist/video-js.css" rel="stylesheet">
+    <link type="text/css" rel="stylesheet" href="stylesheets/style.css" />
+    <script src="https://unpkg.com/video.js/dist/video.js"></script>
+<!--    <script src="https://unpkg.com/@videojs/http-streaming/dist/videojs-http-streaming.js"></script>-->
+<!--    <script src="https://cdn.jsdelivr.net/npm/videojs-contrib-quality-levels@2.0.9/dist/videojs-contrib-quality-levels.min.js"></script>-->
+<!--    <script src="https://cdn.jsdelivr.net/npm/videojs-hls-quality-selector@1.1.1/dist/videojs-hls-quality-selector.min.js"></script>-->
+    <script src="https://cdn.jsdelivr.net/npm/flv.js@1.5.0/dist/flv.min.js" integrity="sha256-D6TKHbDUtkg2nzStu2Cq8Gn674mUh7oc+2gIdVECNlY=" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/videojs-flvjs@0.2.0/dist/videojs-flvjs.min.js" integrity="sha256-9E4vlrJpHeWFm/dzSKOps4Csfx0X1ReuUX43FWEeSJE=" crossorigin="anonymous"></script>
+</head>
+<body>
+<video id="player" class="video-js vjs-default-skin vjs-big-play-centered" height="360" width="auto"
+       controls preload="none" data-setup='{}'>
+    <source src="ws://kif2020.kiranamegatara.com:8000/live/stream.flv" type="video/flv"/>
+</video>
+<script>
+    this.videoJSplayer = videojs('#player', {
+        fluid: true,
+        aspectRatio: '16:9',
+        html5: {
+            // hls: {
+            //     overrideNative: true,
+            //     //withCredentials: true
+            // },
+            controls: false,
+            autoplay: true,
+            preload: 'auto'
+        },
+        techOrder: ['html5', 'flvjs'],
+        flvjs: {
+            mediaDataSource: {
+                isLive: true,
+                cors: true,
+                withCredentials: false,
+            },
+            // config: {},
+        },
+    });
+    this.videoJSplayer.controls('true');
+    this.videoJSplayer.isButtonVisible = false;
+    // this.videoJSplayer.hlsQualitySelector();
+    // (function(window, videojs) {
+    //     var player = window.player = videojs('videojs-hls-quality-selector-player', {
+    //         aspectRatio: '16:9',
+    //         fluid: true,
+    //         html5: {
+    //             hls: {
+    //                 overrideNative: true,
+    //                 //withCredentials: true
+    //             },
+    //             controls: false,
+    //             autoplay: false,
+    //             preload: 'auto'
+    //         }
+    //     });
+    //     player.controls('true');
+    //     player.hlsQualitySelector({
+    //         displayCurrentQuality: true,
+    //     });
+    // }(window, window.videojs));
+</script>
+</body>
+</html>
