@@ -1,0 +1,76 @@
+<script src="js/jquery.min.js"></script>
+<script src="js/moment.min.js"></script>
+<script src="js/moment-timezone-with-data.min.js"></script>
+<script src="js/jquery.countdown.min.js"></script>
+<script src="js/video.min.js"></script>
+<!--<script src="js/flv.min.js"></script>-->
+<!--<script src="js/videojs-flvjs.min.js"></script>-->
+<!--<script src="https://cdn.jsdelivr.net/npm/videojs-flash@2.2.1/dist/videojs-flash.min.js"></script>-->
+<script src="https://cdn.jsdelivr.net/npm/videojs-resolution-switcher-vjs7@1.0.0/videojs-resolution-switcher.js"></script>
+<script>
+    (function () {
+        const dateLaunch = moment.tz("2020-08-28 00:00", "Asia/Jakarta");
+        $('#counter').countdown(dateLaunch.toDate(), function (event) {
+            $(this).find('#days').html(event.strftime('%D'));
+            $(this).find('#hours').html(event.strftime('%H'));
+            $(this).find('#mins').html(event.strftime('%M'));
+            $(this).find('#secs').html(event.strftime('%S'));
+        });
+        this.videoJSplayer = videojs('#player', {
+            fluid: true,
+            autoplay: true,
+            aspectRatio: '16:9',
+            html5: {
+                hls: {
+                    overrideNative: true,
+                    //withCredentials: true
+                },
+                controls: false,
+                autoplay: true,
+                preload: 'auto'
+            },
+            // techOrder: ['html5', 'flvjs'],
+            // flvjs: {
+            //     mediaDataSource: {
+            //         isLive: true,
+            //         cors: true,
+            //         withCredentials: false,
+            //     },
+            //     // config: {},
+            // },
+            plugins: {
+                videoJsResolutionSwitcher: {
+                    default: 720,
+                    dynamicLabel: true
+                }
+            }
+        });
+        this.videoJSplayer.controls('true');
+        this.videoJSplayer.isButtonVisible = false;
+
+        this.videoJSplayer.updateSrc([
+            {
+                src: 'http://<%= streamHost %>' + ':8000/live/stream_720/index.m3u8',
+                type: 'application/x-mpegURL',
+                label: '720',
+                res: 720
+            },
+            {
+                src: 'http://<%= streamHost %>' + ':8000/live/stream_480/index.m3u8',
+                type: 'application/x-mpegURL',
+                label: '480',
+                res: 480
+            },
+            {
+                src: 'http://<%= streamHost %>' + ':8000/live/stream_360/index.m3u8',
+                type: 'application/x-mpegURL',
+                label: '360',
+                res: 360
+            },
+        ]);
+        this.videoJSplayer.on('resolutionchange', function(){
+            console.info('Source changed to %s', videoJSplayer.src())
+        })
+
+    })();
+</script>

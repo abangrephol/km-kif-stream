@@ -16,6 +16,6 @@ module.exports = {
     "plugins": [
         require('tailwindcss')('tailwind.js'),
         require('autoprefixer')(),
-        ...[purgecss, cssnano]
+        // ...[purgecss, cssnano]
     ]
 }

@@ -40,10 +40,10 @@ nms.on('prePublish', async (id, StreamPath, args) => {
 })
 
 nms.on('postPublish', async (_id, StreamPath, _args) => {
-  if (StreamPath.indexOf('stream_') == -1) {
-    const name = StreamPath.split('/').pop()
-    createPlaylist(name)
-  }
+  // if (StreamPath.indexOf('stream_') == -1) {
+  //   const name = StreamPath.split('/').pop()
+  //   createPlaylist(name)
+  // }
 })
 
 nms.on('donePublish', async (id, StreamPath, _args) => {

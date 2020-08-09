@@ -3,64 +3,76 @@
 <head>
     <meta charset="UTF-8">
     <title>Live Streaming</title>
-    <link type="text/css" rel="stylesheet" href="stylesheets/style.css" />
-    <link href="https://unpkg.com/video.js/dist/video-js.css" rel="stylesheet">
-    <script src="https://unpkg.com/video.js/dist/video.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/flv.js@1.5.0/dist/flv.min.js" integrity="sha256-D6TKHbDUtkg2nzStu2Cq8Gn674mUh7oc+2gIdVECNlY=" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/videojs-flvjs@0.2.0/dist/videojs-flvjs.min.js" integrity="sha256-9E4vlrJpHeWFm/dzSKOps4Csfx0X1ReuUX43FWEeSJE=" crossorigin="anonymous"></script>
+    <link type="text/css" rel="stylesheet" href="stylesheets/style.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/shaka-player@3.0.2/dist/controls.css">
+    <script src="https://cdn.jsdelivr.net/npm/shaka-player@3.0.2/dist/shaka-player.compiled.min.js"></script>
+    <!--    <script src="https://cdn.jsdelivr.net/npm/shaka-player@3.0.2/dist/shaka-player.ui.js"></script>-->
+
+    <script>
+
+        (function () {
+            const manifestUri =
+                'http://localhost:8000/live/stream_360/index.mpd';
+
+            function initApp() {
+                // Install built-in polyfills to patch browser incompatibilities.
+                shaka.polyfill.installAll();
+
+                // Check to see if the browser supports the basic APIs Shaka needs.
+                if (shaka.Player.isBrowserSupported()) {
+                    // Everything looks good!
+                    initPlayer();
+                } else {
+                    // This browser does not have the minimum set of APIs we need.
+                    console.error('Browser not supported!');
+                }
+            }
+
+            async function initPlayer() {
+                // Create a Player instance.
+                const video = document.getElementById('video');
+                const player = new shaka.Player(video);
+
+                // Attach player to the window to make it easy to access in the JS console.
+                window.player = player;
+
+                // Listen for error events.
+                player.addEventListener('error', onErrorEvent);
+
+                // Try to load a manifest.
+                // This is an asynchronous process.
+                try {
+                    await player.load(manifestUri);
+                    // This runs if the asynchronous load is successful.
+                    console.log('The video has now been loaded!');
+                } catch (e) {
+                    // onError is executed if the asynchronous load fails.
+                    onError(e);
+                }
+            }
+
+            function onErrorEvent(event) {
+                // Extract the shaka.util.Error object from the event.
+                onError(event.detail);
+            }
+
+            function onError(error) {
+                // Log the error.
+                console.error('Error code', error.code, 'object', error);
+            }
+
+            document.addEventListener('DOMContentLoaded', initApp);
+        })();
+    </script>
 </head>
 <body>
 <video id="player" class="video-js vjs-default-skin vjs-big-play-centered"
        height="360" width="auto"
-       poster="https://dummyimage.com/720x600/000/ffffff&text=KIF+2020"
-       controls preload="none" data-setup='{}'>
-    <source src="ws://kif2020.kiranamegatara.com:8000/live/stream.flv" type="video/flv"/>
+       crossorigin="anonymous"
+       controls
+       autoplay
+       preload="none"
+       data-setup='{}'>
 </video>
-<script>
-    this.videoJSplayer = videojs('#player', {
-        fluid: true,
-        aspectRatio: '16:9',
-        html5: {
-            // hls: {
-            //     overrideNative: true,
-            //     //withCredentials: true
-            // },
-            controls: false,
-            autoplay: true,
-            preload: 'auto'
-        },
-        techOrder: ['html5', 'flvjs'],
-        flvjs: {
-            mediaDataSource: {
-                isLive: true,
-                cors: true,
-                withCredentials: false,
-            },
-            // config: {},
-        },
-    });
-    this.videoJSplayer.controls('true');
-    this.videoJSplayer.isButtonVisible = false;
-    // this.videoJSplayer.hlsQualitySelector();
-    // (function(window, videojs) {
-    //     var player = window.player = videojs('videojs-hls-quality-selector-player', {
-    //         aspectRatio: '16:9',
-    //         fluid: true,
-    //         html5: {
-    //             hls: {
-    //                 overrideNative: true,
-    //                 //withCredentials: true
-    //             },
-    //             controls: false,
-    //             autoplay: false,
-    //             preload: 'auto'
-    //         }
-    //     });
-    //     player.controls('true');
-    //     player.hlsQualitySelector({
-    //         displayCurrentQuality: true,
-    //     });
-    // }(window, window.videojs));
-</script>
 </body>
 </html>
