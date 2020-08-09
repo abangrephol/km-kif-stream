@@ -10,6 +10,7 @@ services:
       - 8000:8000
       - 8080:8080
       - 1935:1935
+      - 6379:6379
     command: ['yarn', 'start:dev']
     environment:
       PUBLISH_START_NOTIFY_URL: ''

@@ -2,14 +2,14 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Live Streaming</title>
-    <link type="text/css" rel="stylesheet" href="stylesheets/style.css"/>
-    <link href="https://unpkg.com/video.js/dist/video-js.css" rel="stylesheet">
+    <title>KIF 2020 Live Streaming</title>
+    <link type="text/css" rel="stylesheet" href="css/style.css"/>
+    <link href="css/video-js.min.css" rel="stylesheet">
 </head>
 <body class="bg-orange-900">
 <section class="text-gray-700 body-font">
     <div class="container px-5 py-24 mx-auto flex flex-wrap">
-        <div class="rounded-lg overflow-hidden -mx-4 mt-auto mb-auto w-3/4 shadow-lg">
+        <div class="rounded-lg overflow-hidden mt-auto mb-auto w-3/4 shadow-lg">
             <video id="player" class="w-full h-full video-js vjs-default-skin vjs-big-play-centered"
                    poster="/images/video-poster.jpeg"
                    controls preload="none" data-setup='{}'>
@@ -70,19 +70,13 @@
         </div>
     </div>
 </footer>
-<script src="//code.jquery.com/jquery.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.27.0/moment.min.js"
-        integrity="sha512-rmZcZsyhe0/MAjquhTgiUcb4d9knaFc7b5xAfju483gbEXTkeJRUMIPk6s3ySZMYUHEcjKbjLjyddGWMrNEvZg=="
-        crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/moment-timezone/0.5.31/moment-timezone-with-data.js"
-        integrity="sha512-ECoTMVFwwVtxjEBRjUMjviUd6hBjwDhBJI0+3W2YDs+ld5rHHUDr59T15gxwEPkGu5XLmkASUSvPgQe/Tpyodg=="
-        crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.countdown/2.2.0/jquery.countdown.min.js"
-        integrity="sha512-lteuRD+aUENrZPTXWFRPTBcDDxIGWe5uu0apPEn+3ZKYDwDaEErIK9rvR0QzUGmUQ55KFE2RqGTVoZsKctGMVw=="
-        crossorigin="anonymous"></script>
-<script src="https://unpkg.com/video.js/dist/video.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/flv.js@1.5.0/dist/flv.min.js" integrity="sha256-D6TKHbDUtkg2nzStu2Cq8Gn674mUh7oc+2gIdVECNlY=" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/videojs-flvjs@0.2.0/dist/videojs-flvjs.min.js" integrity="sha256-9E4vlrJpHeWFm/dzSKOps4Csfx0X1ReuUX43FWEeSJE=" crossorigin="anonymous"></script>
+<script src="js/jquery.min.js"></script>
+<script src="js/moment.min.js"></script>
+<script src="js/moment-timezone-with-data.min.js"></script>
+<script src="js/jquery.countdown.min.js"></script>
+<script src="js/video.min.js"></script>
+<script src="js/flv.min.js"></script>
+<script src="js/videojs-flvjs.min.js"></script>
 <script>
     (function () {
         const dateLaunch = moment.tz("2020-08-28 00:00", "Asia/Jakarta");
