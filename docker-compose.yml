@@ -6,8 +6,6 @@ services:
     volumes:
       - ./src:/app/src
       - ./media:/app/media
-    extra_hosts:
-      - "hostLocal:192.168.1.6"
     ports:
       - 8000:8000
       - 8080:8080
