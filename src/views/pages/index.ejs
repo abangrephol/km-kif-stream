@@ -13,33 +13,45 @@
             flex-wrap bg-white">
             <%- include('partials/_video') %>
         </div>
-        <% if (isLive == true) { %>
-            <div class="w-1/4 mt-6 sm:mt-0 flex flex-wrap content-start pl-10">
-                <div class="h-full w-full bg-white rounded-lg px-auto">
+        <div class="w-1/4 pl-10">
+            <% if (isLive == true) { %>
+                <div class="w-1/4 mt-6 sm:mt-0 flex flex-wrap content-start pl-10">
+                    <div class="h-full w-full bg-white rounded-lg px-auto">
 
+                    </div>
                 </div>
-            </div>
-        <% } else { %>
-            <div id="counter" class="w-1/4 mt-6 sm:mt-0 flex flex-wrap  content-start pl-10">
-                <img class="object-cover object-center w-full" src="images/side-poster.jpeg"/>
-                <div class="p-4 sm:w-1/2 lg:w-1/4 w-1/2">
-                    <h3 id="days" class="title-font font-medium text-2xl text-white">1</h3>
-                    <p class="leading-relaxed text-yellow-600">Days</p>
+            <% } else { %>
+                <div id="counter" class="text-center h-full w-full mt-6 sm:mt-0 flex flex-wrap content-start rounded-lg shadow-lg bg-red-800 overflow-hidden">
+                    <img class="object-cover object-center w-full" src="images/side-poster.jpeg"/>
+                    <div class="px-4 py-2 text-white w-full bg-red-900">
+                        <h3>Event Countdown</h3>
+                    </div>
+                    <div class="p-4 sm:w-1/2 lg:w-1/4 w-1/2">
+                        <h3 id="days" class="title-font font-medium text-2xl text-white">1</h3>
+                        <p class="leading-relaxed text-yellow-600">Days</p>
+                    </div>
+                    <div class="p-4 sm:w-1/2 lg:w-1/4 w-1/2">
+                        <h3 id="hours" class="title-font font-medium text-2xl text-white">24</h3>
+                        <p class="leading-relaxed text-yellow-600">Hours</p>
+                    </div>
+                    <div class="p-4 sm:w-1/2 lg:w-1/4 w-1/2">
+                        <h3 id="mins" class="title-font font-medium text-2xl text-white">60</h3>
+                        <p class="leading-relaxed text-yellow-600">Mins</p>
+                    </div>
+                    <div class="p-4 sm:w-1/2 lg:w-1/4 w-1/2">
+                        <h3 id="secs" class="title-font font-medium text-2xl text-white">60</h3>
+                        <p class="leading-relaxed text-yellow-600">Sec</p>
+                    </div>
+                    <div class="px-4 pb-2 text-white w-full text-left text-sm">
+                        <ul class="mx-4 list-disc">
+                            <li>Awarding ceremony</li>
+                            <li>Band &amp; Tiktok Competition</li>
+                            <li>Doorprize</li>
+                        </ul>
+                    </div>
                 </div>
-                <div class="p-4 sm:w-1/2 lg:w-1/4 w-1/2">
-                    <h3 id="hours" class="title-font font-medium text-2xl text-white">24</h3>
-                    <p class="leading-relaxed text-yellow-600">Hours</p>
-                </div>
-                <div class="p-4 sm:w-1/2 lg:w-1/4 w-1/2">
-                    <h3 id="mins" class="title-font font-medium text-2xl text-white">60</h3>
-                    <p class="leading-relaxed text-yellow-600">Mins</p>
-                </div>
-                <div class="p-4 sm:w-1/2 lg:w-1/4 w-1/2">
-                    <h3 id="secs" class="title-font font-medium text-2xl text-white">60</h3>
-                    <p class="leading-relaxed text-yellow-600">Sec</p>
-                </div>
-            </div>
-        <% } %>
+            <% } %>
+        </div>
     </div>
 </section>
 <%- include('partials/_footer') %>
