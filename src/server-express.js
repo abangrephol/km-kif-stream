@@ -15,10 +15,15 @@ app.use(express.static(path.resolve(__dirname, '../public')));
 
 app.get('/', async (req, res) => {
     let isLive = await redisClient.getAsync("isLive");
+    let isStatic = await redisClient.getAsync("isStatic");
+    let videoStatic = await redisClient.getAsync("videoStatic");
     if (isLive == null) isLive = false;
+    if (isStatic == null) isStatic = false;
     const streamHost = process.env.STREAM_HOST;
     let liveStreamObj = {
         isLive,
+        isStatic,
+        videoStatic,
         streamHost
     };
     res.render('pages/index', liveStreamObj);

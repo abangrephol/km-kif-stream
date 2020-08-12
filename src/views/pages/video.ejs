@@ -2,77 +2,59 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Live Streaming</title>
-    <link type="text/css" rel="stylesheet" href="stylesheets/style.css"/>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/shaka-player@3.0.2/dist/controls.css">
-    <script src="https://cdn.jsdelivr.net/npm/shaka-player@3.0.2/dist/shaka-player.compiled.min.js"></script>
-    <!--    <script src="https://cdn.jsdelivr.net/npm/shaka-player@3.0.2/dist/shaka-player.ui.js"></script>-->
-
-    <script>
-
-        (function () {
-            const manifestUri =
-                'http://localhost:8000/live/stream_360/index.mpd';
-
-            function initApp() {
-                // Install built-in polyfills to patch browser incompatibilities.
-                shaka.polyfill.installAll();
-
-                // Check to see if the browser supports the basic APIs Shaka needs.
-                if (shaka.Player.isBrowserSupported()) {
-                    // Everything looks good!
-                    initPlayer();
-                } else {
-                    // This browser does not have the minimum set of APIs we need.
-                    console.error('Browser not supported!');
-                }
-            }
-
-            async function initPlayer() {
-                // Create a Player instance.
-                const video = document.getElementById('video');
-                const player = new shaka.Player(video);
-
-                // Attach player to the window to make it easy to access in the JS console.
-                window.player = player;
-
-                // Listen for error events.
-                player.addEventListener('error', onErrorEvent);
-
-                // Try to load a manifest.
-                // This is an asynchronous process.
-                try {
-                    await player.load(manifestUri);
-                    // This runs if the asynchronous load is successful.
-                    console.log('The video has now been loaded!');
-                } catch (e) {
-                    // onError is executed if the asynchronous load fails.
-                    onError(e);
-                }
-            }
-
-            function onErrorEvent(event) {
-                // Extract the shaka.util.Error object from the event.
-                onError(event.detail);
-            }
-
-            function onError(error) {
-                // Log the error.
-                console.error('Error code', error.code, 'object', error);
-            }
-
-            document.addEventListener('DOMContentLoaded', initApp);
-        })();
-    </script>
+    <title>KIF 2020 Live Streaming</title>
+    <%- include('partials/_styles') %>
 </head>
-<body>
-<video id="player" class="video-js vjs-default-skin vjs-big-play-centered"
-       height="360" width="auto"
-       crossorigin="anonymous"
-       controls
-       autoplay
-       preload="none"
-       data-setup='{}'>
-</video>
+<body class="bg-gray-900">
+<%- include('partials/_header') %>
+<section class="text-gray-700 body-font">
+    <div class="container px-5 pb-24 mx-auto flex flex-wrap">
+        <div class="rounded-lg overflow-hidden mt-auto mb-auto w-3/4 shadow-lg flex
+            flex-wrap bg-white">
+            <%- include('partials/_video') %>
+        </div>
+        <div class="w-1/4 pl-10">
+            <% if (isLive == true) { %>
+                <div class="w-1/4 mt-6 sm:mt-0 flex flex-wrap content-start pl-10">
+                    <div class="h-full w-full bg-white rounded-lg px-auto">
+
+                    </div>
+                </div>
+            <% } else { %>
+                <div id="counter" class="text-center h-full w-full mt-6 sm:mt-0 flex flex-wrap content-start rounded-lg shadow-lg bg-red-800 overflow-hidden">
+                    <img class="object-cover object-center w-full" src="images/side-poster.jpeg"/>
+                    <div class="px-4 py-2 text-white w-full bg-red-900">
+                        <h3>Event Countdown</h3>
+                    </div>
+                    <div class="p-2 sm:w-1/2 lg:w-1/4 w-1/2">
+                        <h3 id="days" class="title-font font-medium text-2xl text-white">1</h3>
+                        <p class="leading-relaxed text-yellow-600">Days</p>
+                    </div>
+                    <div class="p-2 sm:w-1/2 lg:w-1/4 w-1/2">
+                        <h3 id="hours" class="title-font font-medium text-2xl text-white">24</h3>
+                        <p class="leading-relaxed text-yellow-600">Hours</p>
+                    </div>
+                    <div class="p-2 sm:w-1/2 lg:w-1/4 w-1/2">
+                        <h3 id="mins" class="title-font font-medium text-2xl text-white">60</h3>
+                        <p class="leading-relaxed text-yellow-600">Mins</p>
+                    </div>
+                    <div class="p-2 sm:w-1/2 lg:w-1/4 w-1/2">
+                        <h3 id="secs" class="title-font font-medium text-2xl text-white">60</h3>
+                        <p class="leading-relaxed text-yellow-600">Sec</p>
+                    </div>
+                    <div class="px-4 p-2 text-white w-full font-bold capitalize text-sm border-black border-opacity-25 border-t-2 border-dashed">
+                        <ul class="mx-4">
+                            <li>Awarding Ceremony</li>
+                            <li>Band &amp; Tiktok Competition</li>
+                            <li>Doorprize</li>
+                        </ul>
+                    </div>
+                </div>
+            <% } %>
+        </div>
+    </div>
+</section>
+<%- include('partials/_footer') %>
+<%- include('partials/_scripts', {streamHost}) %>
 </body>
 </html>
