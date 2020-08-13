@@ -6,6 +6,7 @@ const redisClient = require('./redis-client');
 
 const apiRoute = require('./routes/api')
 const router = express.Router();
+const os = require("os");
 
 app.set('trust proxy', true);
 app.set('view engine', 'ejs');
@@ -14,12 +15,13 @@ app.set('views', path.join(__dirname, 'views'));
 app.use(express.static(path.resolve(__dirname, '../public')));
 
 app.get('/', async (req, res) => {
+    const hostname = os.hostname();
     let isLive = await redisClient.getAsync("isLive");
     let isStatic = await redisClient.getAsync("isStatic");
     let videoStatic = await redisClient.getAsync("videoStatic");
     if (isLive == null) isLive = false;
     if (isStatic == null) isStatic = false;
-    const streamHost = process.env.STREAM_HOST;
+    const streamHost = req.headers.host;
     let liveStreamObj = {
         isLive,
         isStatic,
