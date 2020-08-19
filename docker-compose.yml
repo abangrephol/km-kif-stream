@@ -3,8 +3,10 @@ services:
   media-server:
     build:
       context: ./
+      dockerfile: Dockerfile
     volumes:
       - ./src:/app/src
+      - ./public:/app/public
       - ./media:/app/media
     ports:
       - 8000:8000
@@ -14,3 +16,16 @@ services:
     environment:
       PUBLISH_START_NOTIFY_URL: ''
       PUBLISH_STOP_NOTIFY_URL: ''
+    networks:
+      - app-network
+    links:
+      - mongodb
+
+  mongodb:
+    image: mongo
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge
