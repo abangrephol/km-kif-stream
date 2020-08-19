@@ -1,0 +1,32 @@
+<%- contentFor('content') %>
+<div class="p-8 border-t-4 border-blue-500 bg-white shadow rounded-lg w-1/4 mr-8">
+    <form method="post" action="api/setting" enctype="multipart/form-data">
+        <div class="flex flex-wrap">
+            <label class="block text-gray-700 text-sm font-bold mb-2" for="username">
+                Streaming Status
+            </label>
+            <div class="w-full mb-2">
+                <div class="relative inline-block w-10 mr-2 align-middle select-none transition duration-200 ease-in">
+                    <input <%= isLive ? 'checked' : '' %> type="checkbox" name="isLive" id="isLive" value="1" class="toggle-checkbox absolute block w-6 h-6 rounded-full bg-white border-4 appearance-none cursor-pointer"/>
+                    <label for="isLive" class="toggle-label block overflow-hidden h-6 rounded-full bg-gray-300 cursor-pointer"></label>
+                </div>
+                <label for="isLive" class="text-xs text-gray-700">Live</label>
+            </div>
+            <div class="w-full mb-2">
+                <div class="relative inline-block w-10 mr-2 align-middle select-none transition duration-200 ease-in">
+                    <input <%= isStatic ? 'checked' : '' %> type="checkbox" name="isStatic" id="isStatic" value="1" class="toggle-checkbox absolute block w-6 h-6 rounded-full bg-white border-4 appearance-none cursor-pointer"/>
+                    <label for="isStatic" class="toggle-label block overflow-hidden h-6 rounded-full bg-gray-300 cursor-pointer"></label>
+                </div>
+                <label for="isStatic" class="text-xs text-gray-700">Static video</label>
+            </div>
+            <div class="w-full mb-2">
+                <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="videoStatic" name="videoStatic" type="file" placeholder="Username">
+            </div>
+            <button class="bg-white hover:bg-gray-100 text-gray-800 font-semibold py-2 px-4 border border-gray-400 rounded shadow w-full text-sm">
+                Save
+            </button>
+        </div>
+    </form>
+</div>
+<div class="p-10 border-t-4 border-blue-500 bg-white shadow rounded-lg w-2/4 ">
+</div>
