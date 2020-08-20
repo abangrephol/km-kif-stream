@@ -1,11 +1,11 @@
-const redis = require('redis');
 const path = require('path');
 const express = require('express');
 const app = express();
-const redisClient = require('./redis-client');
 const winston = require('winston');
 const mongoose = require('mongoose');
 const Setting = require('./models/setting.model');
+const ChatUser = require('./models/chat-user.model');
+const Chat = require('./models/chat.model');
 
 mongoose.connect(process.env.DATABASE);
 mongoose.Promise = global.Promise;
@@ -57,8 +57,22 @@ app.get('/', async (req, res) => {
         winston.error(e.message);
     }
 });
-app.get('/video', function(req, res) {
-    res.render('pages/video');
+app.get('/video', async function(req, res) {
+    const isLiveSetting = await Setting.findOne({key: 'isLive'}).exec();
+    let isLive = isLiveSetting ? isLiveSetting.value : false;
+    const isStaticSetting = await Setting.findOne({key: 'isStatic'}).exec();
+    let isStatic = isStaticSetting ? isStaticSetting.value : false;
+    const videoStaticSetting = await Setting.findOne({key: 'videoStatic'}).exec();
+    let videoStatic = videoStaticSetting ? videoStaticSetting.value : null;
+    const streamHost = req.headers.host;
+    let liveStreamObj = {
+        layout: 'pages/layout',
+        isLive,
+        isStatic,
+        videoStatic,
+        streamHost
+    };
+    res.render('pages/video', liveStreamObj);
 });
 
 app.get('/stream-admin', async (req, res)  => {
@@ -70,12 +84,16 @@ app.get('/stream-admin', async (req, res)  => {
         const videoStaticSetting = await Setting.findOne({key: 'videoStatic'}).exec();
         let videoStatic = videoStaticSetting ? videoStaticSetting.value : null;
         const streamHost = req.headers.host;
+
+        const chatUserList = await ChatUser.find().exec();
+
         let adminObj = {
             layout: 'admin/layout',
             isLive,
             isStatic,
             videoStatic,
-            streamHost
+            streamHost,
+            chatUserList
         };
         res.render('admin/index', adminObj)
     } catch (e) {
@@ -85,5 +103,79 @@ app.get('/stream-admin', async (req, res)  => {
 
 app.use('/api', apiRoute);
 
-app.listen(8080);
+const server = app.listen(8080);
 console.log('8080 is the magic port');
+
+let numUsers = 0;
+
+const io = require('socket.io').listen(server);
+io.on('connection', (socket) => {
+    var addedUser = false;
+
+    // when the client emits 'new message', this listens and executes
+    socket.on('new message', async (data) => {
+        // we tell the client to execute 'new message'
+        const chat = new Chat({
+            user: socket.userId,
+            message: data
+        })
+
+        await chat.save();
+        socket.broadcast.emit('new message', {
+            username: socket.username,
+            message: data
+        });
+    });
+
+    // when the client emits 'add user', this listens and executes
+    socket.on('add user', async (username) => {
+        if (addedUser) return;
+
+        // we store the username in the socket session for this client
+        socket.username = username;
+        const user = await ChatUser.findOneAndReplace({name: username}, {
+            name: username
+        }, {new: true, upsert: true})
+            .exec();
+        socket.userId = user.id;
+
+        ++numUsers;
+        addedUser = true;
+        socket.emit('login', {
+            numUsers: numUsers,
+            user
+        });
+        // echo globally (all clients) that a person has connected
+        socket.broadcast.emit('user joined', {
+            username: socket.username,
+            numUsers: numUsers
+        });
+    });
+
+    // when the client emits 'typing', we broadcast it to others
+    socket.on('typing', () => {
+        socket.broadcast.emit('typing', {
+            username: socket.username
+        });
+    });
+
+    // when the client emits 'stop typing', we broadcast it to others
+    socket.on('stop typing', () => {
+        socket.broadcast.emit('stop typing', {
+            username: socket.username
+        });
+    });
+
+    // when the user disconnects.. perform this
+    socket.on('disconnect', () => {
+        if (addedUser) {
+            --numUsers;
+
+            // echo globally that this client has left
+            socket.broadcast.emit('user left', {
+                username: socket.username,
+                numUsers: numUsers
+            });
+        }
+    });
+});

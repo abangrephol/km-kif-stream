@@ -22,7 +22,10 @@
     "pm2": "^4.2.3",
     "postcss-cli": "^7.1.1",
     "redis": "^3.0.2",
-    "tailwindcss": "^1.6.2",
+    "sass-loader": "^9.0.3",
+    "socket.io": "^2.3.0",
+    "style-loader": "^1.2.1",
+    "tailwindcss": "^1.7.2",
     "videojs-shaka": "^0.4.5",
     "winston": "^3.3.3"
   },

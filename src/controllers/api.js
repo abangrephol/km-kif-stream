@@ -1,4 +1,3 @@
-const redisClient = require('../redis-client');
 const Setting = require('../models/setting.model')
 const winston = require('winston');
 

@@ -1,17 +1,17 @@
-<div class="w-full h-full p-2 bg-white shadow-lg rounded-lg flex flex-wrap text-center content-start">
-    <div class="chat page hidden flex overflow-hidden">
-        <div class="flex-1 overflow-y-scroll chatArea">
+<div class="w-1/4 ml-10 bg-white shadow-lg rounded-lg
+    flex overflow-hidden h-screen max-h-3/4vh overflow-hidden">
+    <div class="chat page hidden w-full flex flex-col">
+        <div class="flex-none bg-gray-200 p-4">
+            <h4>KIF 2020 Chatting Area</h4>
         </div>
-        <div class="flex-none">
-            <input class="inputMessage" placeholder="Type here..."/>
+        <div class="flex-1 chatArea overflow-y-scroll p-4">
         </div>
-<!--        <div class="chatArea">-->
-<!--            <ul class="messages"></ul>-->
-<!--        </div>-->
-<!--        <input class="inputMessage" placeholder="Type here..."/>-->
+        <div class="flex-none p-4 bg-gray-200">
+            <input class="inputMessage w-full bg-transparent appearance-none focus:outline-none leading-tight" placeholder="Type here..."/>
+        </div>
     </div>
     <div class="login page w-full h-full bg-gray-800 pt-20 rounded-lg">
-        <div class="form p-2">
+        <div class="form p-4">
             <h3 class="pb-4 text-white">Ketik NIK anda untuk mulai chatting</h3>
             <input class="usernameInput appearance-none w-full rounded p-2 text-center font-bold focus:border leading-tight focus-visible text-gray-500" type="text" maxlength="10">
         </div>

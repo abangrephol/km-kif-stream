@@ -28,9 +28,9 @@ $(function() {
     const addParticipantsMessage = (data) => {
         var message = '';
         if (data.numUsers === 1) {
-            message += "there's 1 participant";
+            message += "Kamu yang pertama disini";
         } else {
-            message += "there are " + data.numUsers + " participants";
+            message += "Ada " + data.numUsers + " orang disini";
         }
         log(message);
     }
@@ -42,7 +42,7 @@ $(function() {
         // If the username is valid
         if (username) {
             $loginPage.fadeOut();
-            $chatPage.show();
+            $chatPage.removeClass('hidden');
             $loginPage.off('click');
             $currentInput = $inputMessage.focus();
 
@@ -70,7 +70,7 @@ $(function() {
 
     // Log a message
     const log = (message, options) => {
-        var $el = $('<div>').addClass('flex items-start mb-4 text-sm').text(message);
+        var $el = $('<div>').addClass('mb-2 text-xs text-gray-400').text(message);
         addMessageElement($el, options);
     }
 
@@ -84,14 +84,15 @@ $(function() {
             $typingMessages.remove();
         }
 
-        var $usernameDiv = $('<span class="username"/>')
+        var $usernameDiv = $('<span class="username text-xs text-teal mb-1 mr-2"/>')
             .text(data.username)
             .css('color', getUsernameColor(data.username));
-        var $messageBodyDiv = $('<span class="messageBody">')
+        var $messageBodyDiv = $('<span class="messageBody text-sm">')
             .text(data.message);
 
-        var typingClass = data.typing ? 'typing' : '';
-        var $messageDiv = $('<li class="message"/>')
+        var typingClass = data.typing ? 'typing bg-white' : 'flex-col bg-gray-100 border border-gray-200';
+
+        var $messageDiv = $('<div class="message flex mb-1 rounded py-1 px-2 "/>')
             .data('username', data.username)
             .addClass(typingClass)
             .append($usernameDiv, $messageBodyDiv);
@@ -102,7 +103,7 @@ $(function() {
     // Adds the visual chat typing message
     const addChatTyping = (data) => {
         data.typing = true;
-        data.message = 'is typing';
+        data.message = 'mengetik ...';
         addChatMessage(data);
     }
 
@@ -134,7 +135,8 @@ $(function() {
 
         // Apply options
         if (options.fade) {
-            $el.hide().fadeIn(FADE_TIME);
+            $el.addClass('hidden transition-opacity ease-in')
+                .removeClass('hidden');
         }
         if (options.prepend) {
             $messages.prepend($el);
@@ -229,7 +231,7 @@ $(function() {
     socket.on('login', (data) => {
         connected = true;
         // Display the welcome message
-        var message = "Welcome to Socket.IO Chat – ";
+        var message = "Welcome to KIF 2020 Chat";
         log(message, {
             prepend: true
         });
@@ -243,13 +245,13 @@ $(function() {
 
     // Whenever the server emits 'user joined', log it in the chat body
     socket.on('user joined', (data) => {
-        log(data.username + ' joined');
+        log(data.username + ' gabung');
         addParticipantsMessage(data);
     });
 
     // Whenever the server emits 'user left', log it in the chat body
     socket.on('user left', (data) => {
-        log(data.username + ' left');
+        log(data.username + ' keluar');
         addParticipantsMessage(data);
         removeChatTyping(data);
     });
@@ -265,18 +267,18 @@ $(function() {
     });
 
     socket.on('disconnect', () => {
-        log('you have been disconnected');
+        log('Jaringan putus');
     });
 
     socket.on('reconnect', () => {
-        log('you have been reconnected');
+        log('Tersambung');
         if (username) {
             socket.emit('add user', username);
         }
     });
 
     socket.on('reconnect_error', () => {
-        log('attempt to reconnect has failed');
+        log('Jaringan rusak');
     });
 
 });

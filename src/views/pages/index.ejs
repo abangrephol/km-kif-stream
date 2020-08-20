@@ -1,40 +1,10 @@
 <%- contentFor('content') %>
-<div class="rounded-lg overflow-hidden mt-auto mb-auto w-3/4 shadow-lg flex
-            flex-wrap bg-white">
+<div class="rounded-lg overflow-hidden w-3/4 shadow-lg flex
+            flex-col bg-white">
     <%- include('partials/_video') %>
 </div>
-<div class="w-1/4 pl-10">
-    <% if (isLive == true) { %>
-        <%- include('partials/_chat') %>
-    <% } else { %>
-        <div id="counter" class="text-center h-full w-full mt-6 sm:mt-0 flex flex-wrap content-start rounded-lg shadow-lg bg-red-800 overflow-hidden">
-            <img class="object-cover object-center w-full" src="images/side-poster.jpeg"/>
-            <div class="px-4 py-2 text-white w-full bg-red-900">
-                <h3>Event Countdown</h3>
-            </div>
-            <div class="p-2 sm:w-1/2 lg:w-1/4 w-1/2">
-                <h3 id="days" class="title-font font-medium text-2xl text-white">1</h3>
-                <p class="leading-relaxed text-yellow-600">Days</p>
-            </div>
-            <div class="p-2 sm:w-1/2 lg:w-1/4 w-1/2">
-                <h3 id="hours" class="title-font font-medium text-2xl text-white">24</h3>
-                <p class="leading-relaxed text-yellow-600">Hours</p>
-            </div>
-            <div class="p-2 sm:w-1/2 lg:w-1/4 w-1/2">
-                <h3 id="mins" class="title-font font-medium text-2xl text-white">60</h3>
-                <p class="leading-relaxed text-yellow-600">Mins</p>
-            </div>
-            <div class="p-2 sm:w-1/2 lg:w-1/4 w-1/2">
-                <h3 id="secs" class="title-font font-medium text-2xl text-white">60</h3>
-                <p class="leading-relaxed text-yellow-600">Sec</p>
-            </div>
-            <div class="px-4 p-2 text-white w-full font-bold capitalize text-sm border-black border-opacity-25 border-t-2 border-dashed">
-                <ul class="mx-4">
-                    <li>Awarding Ceremony</li>
-                    <li>Band &amp; Tiktok Competition</li>
-                    <li>Doorprize</li>
-                </ul>
-            </div>
-        </div>
-    <% } %>
-</div>
+<% if (isLive == true) { %>
+    <%- include('partials/_chat') %>
+<% } else { %>
+    <%- include('partials/_sidebar_counter') %>
+<% } %>

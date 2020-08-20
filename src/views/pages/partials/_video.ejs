@@ -1,20 +1,22 @@
 <% if (isLive == true || isStatic == true) { %>
-    <video id="player" class="w-full h-full video-js vjs-default-skin vjs-big-play-centered"
+    <video id="player" class="w-full flex-1 video-js vjs-default-skin vjs-big-play-centered"
            poster="/images/video-poster.jpeg"
            autoplay preload="none" data-setup='{}'>
     </video>
 <% } else { %>
     <img src="/images/video-poster.jpeg" class="object-cover object-center w-full h-full"/>
 <% } %>
-<div class="w-1/4 px-20 py-4">
-    <img src="images/logo-dna-1.png" />
-</div>
-<div class="w-1/4 px-20 py-4">
-    <img src="images/logo-dna-2.png" />
-</div>
-<div class="w-1/4 px-20 py-4">
-    <img src="images/logo-dna-3.png" />
-</div>
-<div class="w-1/4 px-20 py-4">
-    <img src="images/logo-dna-4.png" />
+<div class="flex-none flex">
+    <div class="w-1/4 px-20 py-4">
+        <img src="images/logo-dna-1.png" />
+    </div>
+    <div class="w-1/4 px-20 py-4">
+        <img src="images/logo-dna-2.png" />
+    </div>
+    <div class="w-1/4 px-20 py-4">
+        <img src="images/logo-dna-3.png" />
+    </div>
+    <div class="w-1/4 px-20 py-4">
+        <img src="images/logo-dna-4.png" />
+    </div>
 </div>
