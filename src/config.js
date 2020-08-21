@@ -18,7 +18,7 @@ module.exports = {
                 app: 'live',
                 hls: true,
                 ac: "aac",
-                hlsFlags: '[hls_time=10:hls_list_size=3:hls_flags=delete_segments]',
+                hlsFlags: '[hls_time=6:hls_list_size=3:hls_wrap=4:hls_flags=delete_segments]',
             }
         ]
     },
