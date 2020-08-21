@@ -1,5 +1,6 @@
 <script src="js/jquery.min.js"></script>
 <script src="js/change.min.js"></script>
+<script src="js/confetti.min.js"></script>
 <script>
     const BASE_URL = '<%=streamHost%>';
     $(document).ready(function(){
@@ -42,17 +43,33 @@
 
                         setTimeout(function () {
                             clearInterval(rollingInterval)
-                            $winnerRoller.addClass('hidden');
                             const winner = chance.pickone(res.users);
-                            $winnerText
-                                .removeClass('hidden')
-                                .find('.name')
-                                .text(winner.name);
-                            toggleWinnerDisplay(picking);
+                            pickWinner(winner);
                         }, 5000)
                     }
                 }
             });
+        }
+
+        function pickWinner(winner) {
+            $winnerRoller.addClass('hidden');
+            $winnerText
+                .removeClass('hidden')
+                .find('.name')
+                .text(winner.name);
+            toggleWinnerDisplay(picking);
+
+            $.ajax({
+                type: "GET",
+                url: BASE_URL+'/api/chatUser/win/' + winner._id,
+                dataType: 'json',
+                success : (res) => {
+                    confetti.start();
+                    setTimeout(function() {
+                        confetti.stop()
+                    }, 2000)
+                }
+            })
         }
 
         $('.pick-winner button', document).on('click', function() {
