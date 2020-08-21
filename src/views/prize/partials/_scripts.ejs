@@ -1,0 +1,63 @@
+<script src="js/jquery.min.js"></script>
+<script src="js/change.min.js"></script>
+<script>
+    const BASE_URL = '<%=streamHost%>';
+    $(document).ready(function(){
+        let picking = false;
+        $winnerButton = $('.pick-winner');
+        $winnerText = $('.winner-text');
+        $winnerRoller = $('.winner-roller');
+
+        let rollingInterval;
+
+        function toggleWinnerDisplay(show) {
+            if (!show) {
+                picking = true;
+                $winnerText.addClass('hidden')
+                $winnerButton.addClass('opacity-0 transform scale-0')
+            } else {
+                picking = false;
+                $winnerButton.removeClass('opacity-0 transform scale-0')
+            }
+        }
+        function rollingWinner() {
+            $winnerRoller.removeClass('hidden');
+            $.ajax({
+                type: "GET",
+                url: BASE_URL+'/api/chatUser/list',
+                dataType: 'json',
+                success : (res) => {
+                    if (res.status)
+                    {
+                        rollingInterval = setInterval(function(){
+                            const rolled = chance.pickone(res.users);
+                            $rUser = $("<div class=''>"+rolled.name+"</div>")
+                                .delay(100)
+                                .queue(function(next) {
+                                    $(this).remove();
+                                    next();
+                                });
+                            $winnerRoller.prepend($rUser)
+                        }, 200)
+
+                        setTimeout(function () {
+                            clearInterval(rollingInterval)
+                            $winnerRoller.addClass('hidden');
+                            const winner = chance.pickone(res.users);
+                            $winnerText
+                                .removeClass('hidden')
+                                .find('.name')
+                                .text(winner.name);
+                            toggleWinnerDisplay(picking);
+                        }, 5000)
+                    }
+                }
+            });
+        }
+
+        $('.pick-winner button', document).on('click', function() {
+            toggleWinnerDisplay(picking);
+            rollingWinner();
+        })
+    })
+</script>

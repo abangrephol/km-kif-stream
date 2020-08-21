@@ -42,11 +42,7 @@
                     <span class="flex-1 user text-teal-400 <%=user.allowPrize ? '': 'line-through' %>"><%= user.name %></span>
                     <% if (!user.winPrize) { %>
                         <span class="flex-none allowUser px-1">
-                            <% if(user.allowPrize) { %>
-                                <i class="fa fa-times"></i>
-                            <% } else { %>
-                                <i class="fa fa-check"></i>
-                            <% } %>
+                                <i class="fa <%= user.allowPrize ? 'fa-times' : 'fa-check' %>"></i>
                         </span>
                     <span class="flex-none deleteUser px-1">
                         <i class="fa fa-trash"></i>

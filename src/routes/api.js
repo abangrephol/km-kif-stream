@@ -25,5 +25,6 @@ router.post('/setting', upload, controller.setSettings)
 router.post('/chatUser/allow', controller.chatUserAllow)
 router.post('/chatUser/delete', controller.chatUserDelete)
 router.get('/chatUser/win/:userId', controller.chatUserWin)
+router.get('/chatUser/list', controller.chatUserList)
 
 module.exports = router;

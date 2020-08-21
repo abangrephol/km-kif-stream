@@ -87,7 +87,7 @@ $(function() {
         var $usernameDiv = $('<span class="username text-xs text-teal mb-1 mr-2"/>')
             .text(data.username)
             .css('color', getUsernameColor(data.username));
-        var $messageBodyDiv = $('<span class="messageBody text-sm">')
+        var $messageBodyDiv = $('<span class="messageBody text-sm break-words">')
             .text(data.message);
 
         var typingClass = data.typing ? 'typing bg-white' : 'flex-col bg-gray-100 border border-gray-200';

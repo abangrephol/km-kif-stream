@@ -77,9 +77,22 @@ app.get('/video', async function(req, res) {
 });
 app.get('/prize', async function(req, res) {
     const streamHost = req.protocol + '://' + req.headers.host;
+
+    const chatUsers = await ChatUser.find({
+        allowPrize : true,
+        winPrize : false
+    }).exec()
+
+    const winnerUsers = await ChatUser.find({
+        allowPrize : true,
+        winPrize : true
+    }).exec()
+
     let liveStreamObj = {
         layout: 'prize/layout',
-        streamHost
+        streamHost,
+        chatUsers,
+        winnerUsers
     };
     res.render('prize/index', liveStreamObj);
 })

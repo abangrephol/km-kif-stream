@@ -130,4 +130,18 @@ exports.chatUserWin = async (req, res) => {
     }
 }
 
+exports.chatUserList = async (req, res) => {
+    try {
+        const users = await ChatUser.find(
+            {
+                winPrize: false,
+                allowPrize: true
+            }
+        ).exec();
+        res.send({users, status: true});
+    } catch (e) {
+        res.send({status: false, message: e.message});
+    }
+}
+
 module.exports = exports;
