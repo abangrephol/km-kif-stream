@@ -1,5 +1,6 @@
 const Setting = require('../models/setting.model')
 const winston = require('winston');
+const ChatUser = require('../models/chat-user.model');
 
 exports.setLive = async (req, res) => {
     const {isLive} = req.params;
@@ -81,6 +82,51 @@ exports.setSettings = async (req, res, next) => {
     } catch (e) {
         winston.error(e.message)
         throw new Error(e)
+    }
+}
+
+exports.chatUserAllow = async (req, res) => {
+    let {userId, allowed} = req.body;
+
+    try {
+        const user = await ChatUser.findByIdAndUpdate(userId, {
+            allowPrize: allowed
+        }, {new: true})
+            .exec();
+        res.send({user, status: true});
+    } catch (e) {
+        res.send({status: false, message: e.message});
+    }
+}
+
+exports.chatUserDelete = async (req, res) => {
+    let {userId} = req.body;
+
+    try {
+        const user = await ChatUser.findByIdAndDelete(
+            userId
+        ).exec();
+        res.send({user, status: true});
+    } catch (e) {
+        res.send({status: false, message: e.message});
+    }
+}
+
+exports.chatUserWin = async (req, res) => {
+    let {userId} = req.params;
+
+    try {
+        const user = await ChatUser.findByIdAndUpdate(
+            userId, {
+                winPrize: true,
+                allowPrize: true
+            }, {
+                new: true
+            }
+        ).exec();
+        res.send({user, status: true});
+    } catch (e) {
+        res.send({status: false, message: e.message});
     }
 }
 

@@ -22,5 +22,8 @@ router.get('/setLive/:isLive', controller.setLive)
 router.get('/setStatic/:isStatic', controller.setStatic)
 router.get('/setVideoStatic/:videoStatic', controller.setVideoStatic)
 router.post('/setting', upload, controller.setSettings)
+router.post('/chatUser/allow', controller.chatUserAllow)
+router.post('/chatUser/delete', controller.chatUserDelete)
+router.get('/chatUser/win/:userId', controller.chatUserWin)
 
 module.exports = router;

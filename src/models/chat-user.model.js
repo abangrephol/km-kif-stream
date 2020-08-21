@@ -8,6 +8,10 @@ const ChatUserSchema = new mongoose.Schema({
     allowPrize: {
         type: Boolean,
         default: true
+    },
+    winPrize: {
+        type: Boolean,
+        default: false
     }
 });
 

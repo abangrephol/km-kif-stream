@@ -32,7 +32,7 @@ $(function() {
         } else {
             message += "Ada " + data.numUsers + " orang disini";
         }
-        log(message);
+        // log(message);
     }
 
     // Sets the client's username
@@ -245,13 +245,13 @@ $(function() {
 
     // Whenever the server emits 'user joined', log it in the chat body
     socket.on('user joined', (data) => {
-        log(data.username + ' gabung');
+        // log(data.username + ' gabung');
         addParticipantsMessage(data);
     });
 
     // Whenever the server emits 'user left', log it in the chat body
     socket.on('user left', (data) => {
-        log(data.username + ' keluar');
+        // log(data.username + ' keluar');
         addParticipantsMessage(data);
         removeChatTyping(data);
     });

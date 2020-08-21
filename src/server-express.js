@@ -6,6 +6,7 @@ const mongoose = require('mongoose');
 const Setting = require('./models/setting.model');
 const ChatUser = require('./models/chat-user.model');
 const Chat = require('./models/chat.model');
+var bodyParser = require('body-parser');
 
 mongoose.connect(process.env.DATABASE);
 mongoose.Promise = global.Promise;
@@ -74,6 +75,14 @@ app.get('/video', async function(req, res) {
     };
     res.render('pages/video', liveStreamObj);
 });
+app.get('/prize', async function(req, res) {
+    const streamHost = req.headers.host;
+    let liveStreamObj = {
+        layout: 'prize/layout',
+        streamHost
+    };
+    res.render('prize/index', liveStreamObj);
+})
 
 app.get('/stream-admin', async (req, res)  => {
     try {
@@ -83,7 +92,7 @@ app.get('/stream-admin', async (req, res)  => {
         let isStatic = isStaticSetting ? isStaticSetting.value : false;
         const videoStaticSetting = await Setting.findOne({key: 'videoStatic'}).exec();
         let videoStatic = videoStaticSetting ? videoStaticSetting.value : null;
-        const streamHost = req.headers.host;
+        const streamHost = req.protocol + '://' + req.headers.host;
 
         const chatUserList = await ChatUser.find().exec();
 
@@ -101,6 +110,8 @@ app.get('/stream-admin', async (req, res)  => {
     }
 })
 
+app.use(express.json());
+app.use(express.urlencoded({ extended: false }));
 app.use('/api', apiRoute);
 
 const server = app.listen(8080);

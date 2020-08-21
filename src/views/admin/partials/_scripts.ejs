@@ -1,0 +1,56 @@
+<script src="js/jquery.min.js"></script>
+<script>
+    const BASE_URL = '<%=streamHost%>';
+    $(document).ready(function(){
+        $('.deleteUser', document).on('click', function (e) {
+            $el = $(this);
+            $elData = $(this).parent('.flex');
+            $data = $(this).parent('.flex').data();
+            $userId = $data.userid
+            var res = confirm('Are you sure to delete this user?');
+            if (res === true) {
+                $.ajax({
+                    type: "POST",
+                    url: BASE_URL+'/api/chatUser/delete',
+                    data: {
+                        userId: $userId
+                    },
+                    dataType: 'json',
+                    success : (res) => {
+                        if (res.status)
+                        {
+                            $elData.remove();
+                        }
+                    }
+                });
+            }
+        })
+        $('.allowUser').on('click', function(e){
+            $el = $(this);
+            $elData = $(this).parent('.flex');
+            $data = $(this).parent('.flex').data();
+            $userId = $data.userid
+            $allow = !$data.allow;
+            $.ajax({
+                type: "POST",
+                url: BASE_URL+'/api/chatUser/allow',
+                data: {
+                    userId: $userId,
+                    allowed: $allow
+                },
+                dataType: 'json',
+                success : (res) => {
+                    if (res.status) {
+                        $elData.data('allow', res.user.allowPrize);
+                        $elData.find('.user').toggleClass('line-through')
+                        if (res.user.allowPrize) {
+                            $el.find('i').addClass('fa-times').removeClass('fa-check')
+                        } else {
+                            $el.find('i').removeClass('fa-times').addClass('fa-check')
+                        }
+                    }
+                }
+            });
+        })
+    })
+</script>
