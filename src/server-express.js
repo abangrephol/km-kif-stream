@@ -45,7 +45,7 @@ app.get('/', async (req, res) => {
         let isStatic = isStaticSetting ? isStaticSetting.value : false;
         const videoStaticSetting = await Setting.findOne({key: 'videoStatic'}).exec();
         let videoStatic = videoStaticSetting ? videoStaticSetting.value : null;
-        const streamHost = req.headers.host;
+        const streamHost = req.protocol + '://' + req.headers.host;
         let liveStreamObj = {
             layout: 'pages/layout',
             isLive,
@@ -65,7 +65,7 @@ app.get('/video', async function(req, res) {
     let isStatic = isStaticSetting ? isStaticSetting.value : false;
     const videoStaticSetting = await Setting.findOne({key: 'videoStatic'}).exec();
     let videoStatic = videoStaticSetting ? videoStaticSetting.value : null;
-    const streamHost = req.headers.host;
+    const streamHost = req.protocol + '://' + req.headers.host;
     let liveStreamObj = {
         layout: 'pages/layout',
         isLive,
@@ -76,7 +76,7 @@ app.get('/video', async function(req, res) {
     res.render('pages/video', liveStreamObj);
 });
 app.get('/prize', async function(req, res) {
-    const streamHost = req.headers.host;
+    const streamHost = req.protocol + '://' + req.headers.host;
     let liveStreamObj = {
         layout: 'prize/layout',
         streamHost
