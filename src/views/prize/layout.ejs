@@ -6,10 +6,16 @@
     <%- include('partials/_styles') %>
 </head>
 <body class="bg-gray-900">
-<div class="text-gray-700 body-font flex flex-col">
+<div class="text-gray-700 body-font flex flex-col h-screen">
     <%- include('partials/_header') %>
     <div class="container px-5 pb-24 mx-auto flex-1 flex flex-col">
         <%- content %>
+    </div>
+    <div class="flex-none flex flex-row justify-around p-4 bg-white px-20">
+        <img class="flex-none h-20" src="images/logo-dna-1.png" />
+        <img class="flex-none h-20" src="images/logo-dna-2.png" />
+        <img class="flex-none h-20" src="images/logo-dna-3.png" />
+        <img class="flex-none h-20" src="images/logo-dna-4.png" />
     </div>
 </div>
 <%- include('partials/_scripts', {streamHost}) %>
