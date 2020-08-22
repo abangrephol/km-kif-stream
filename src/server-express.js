@@ -6,6 +6,7 @@ const mongoose = require('mongoose');
 const Setting = require('./models/setting.model');
 const ChatUser = require('./models/chat-user.model');
 const Chat = require('./models/chat.model');
+const PrizeModel = require('./models/prize.model');
 var bodyParser = require('body-parser');
 
 mongoose.connect(process.env.DATABASE);
@@ -77,22 +78,14 @@ app.get('/video', async function(req, res) {
 });
 app.get('/prize', async function(req, res) {
     const streamHost = req.protocol + '://' + req.headers.host;
-
-    const chatUsers = await ChatUser.find({
-        allowPrize : true,
-        winPrize : false
-    }).exec()
-
-    const winnerUsers = await ChatUser.find({
-        allowPrize : true,
+    const prizeWinner = await PrizeModel.find({
         winPrize : true
     }).exec()
 
     let liveStreamObj = {
         layout: 'prize/layout',
         streamHost,
-        chatUsers,
-        winnerUsers
+        prizeWinner
     };
     res.render('prize/index', liveStreamObj);
 })
@@ -105,9 +98,16 @@ app.get('/stream-admin', async (req, res)  => {
         let isStatic = isStaticSetting ? isStaticSetting.value : false;
         const videoStaticSetting = await Setting.findOne({key: 'videoStatic'}).exec();
         let videoStatic = videoStaticSetting ? videoStaticSetting.value : null;
+        const prizeMaxSetting = await Setting.findOne({key: 'prizeMax'}).exec();
+        let prizeMax = prizeMaxSetting ? prizeMaxSetting.value : null;
         const streamHost = req.protocol + '://' + req.headers.host;
 
         const chatUserList = await ChatUser.find().exec();
+
+        const prizeList = await PrizeModel.find()
+            .sort({'winPrize': 'desc'})
+            .sort({'perusahaan': 'asc'})
+            .exec();
 
         let adminObj = {
             layout: 'admin/layout',
@@ -115,7 +115,9 @@ app.get('/stream-admin', async (req, res)  => {
             isStatic,
             videoStatic,
             streamHost,
-            chatUserList
+            chatUserList,
+            prizeList,
+            prizeMax
         };
         res.render('admin/index', adminObj)
     } catch (e) {

@@ -25,14 +25,14 @@
             $winnerRoller.removeClass('hidden');
             $.ajax({
                 type: "GET",
-                url: BASE_URL+'/api/chatUser/list',
+                url: BASE_URL+'/api/prize/list',
                 dataType: 'json',
                 success : (res) => {
                     if (res.status)
                     {
                         rollingInterval = setInterval(function(){
-                            const rolled = chance.pickone(res.users);
-                            $rUser = $("<div class=''>"+rolled.name+"</div>")
+                            const rolled = chance.pickone(res.prizeAll);
+                            $rUser = $("<div class=''>"+rolled.nama+"</div>")
                                 .delay(100)
                                 .queue(function(next) {
                                     $(this).remove();
@@ -43,7 +43,7 @@
 
                         setTimeout(function () {
                             clearInterval(rollingInterval)
-                            const winner = chance.pickone(res.users);
+                            const winner = chance.pickone(res.prizeList);
                             pickWinner(winner);
                         }, 5000)
                     }
@@ -56,12 +56,18 @@
             $winnerText
                 .removeClass('hidden')
                 .find('.name')
-                .text(winner.name);
+                .text(winner.nama);
+            $winnerText
+                .find('.perusahaan')
+                .text(winner.perusahaan);
+            $winnerText
+                .find('.nik')
+                .text(winner.nik);
             toggleWinnerDisplay(picking);
 
             $.ajax({
                 type: "GET",
-                url: BASE_URL+'/api/chatUser/win/' + winner._id,
+                url: BASE_URL+'/api/prize/win/' + winner._id+'/true',
                 dataType: 'json',
                 success : (res) => {
                     confetti.start();

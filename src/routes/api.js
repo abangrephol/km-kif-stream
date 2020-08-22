@@ -12,9 +12,21 @@ const staticVideoStorage = multer.diskStorage({
     }
 });
 
+const excelStorage = multer.diskStorage({
+    destination: path.resolve(__dirname, '../../public/excel/'),
+    filename: function (req, file, cb) {
+        cb(null, file.fieldname + '-' + Date.now() +
+            path.extname(file.originalname));
+    }
+});
+
 const upload = multer({
     storage: staticVideoStorage
 }).single('videoStatic');
+
+const uploadExcel = multer({
+    storage: excelStorage
+}).single('excel');
 
 const router = express.Router();
 
@@ -25,6 +37,8 @@ router.post('/setting', upload, controller.setSettings)
 router.post('/chatUser/allow', controller.chatUserAllow)
 router.post('/chatUser/delete', controller.chatUserDelete)
 router.get('/chatUser/win/:userId', controller.chatUserWin)
-router.get('/chatUser/list', controller.chatUserList)
+router.get('/prize/list', controller.prizeList)
+router.post('/prize/upload', uploadExcel, controller.prizeXlsUpload)
+router.get('/prize/win/:userId/:win', controller.prizeWin)
 
 module.exports = router;
