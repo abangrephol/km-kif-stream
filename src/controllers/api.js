@@ -55,15 +55,22 @@ exports.setVideoStatic = async (req, res) => {
 
 exports.setSettings = async (req, res, next) => {
     try {
-        let {isLive, isStatic, prizeMax} = req.body;
+        let {isLive, isStatic, liveChat, prizeMax} = req.body;
         const videoStatic = req.file;
         isLive = isLive === undefined ? 0 : isLive;
+        liveChat = liveChat === undefined ? 0 : liveChat;
         isStatic = isStatic === undefined ? 0 : isStatic;
         prizeMax = isStatic === undefined ? 0 : prizeMax;
 
         const settingIsLive = await Setting.findOneAndReplace({key: 'isLive'}, {
             key: 'isLive',
             value: isLive
+        }, {new: true, upsert: true})
+            .exec();
+
+        const settingliveChat = await Setting.findOneAndReplace({key: 'liveChat'}, {
+            key: 'liveChat',
+            value: liveChat
         }, {new: true, upsert: true})
             .exec();
 
@@ -159,7 +166,7 @@ exports.prizeList = async (req, res) => {
 
         const prizeList = await PrizeModel.find({
             winPrize: false,
-            perusahaan : { "$not": { "$all": prizePerusahaanWinner } }
+            perusahaan : { "$nin": prizePerusahaanWinner  }
         })
             .sort({'winPrize': 'desc'})
             .sort({'perusahaan': 'asc'})
@@ -173,6 +180,19 @@ exports.prizeList = async (req, res) => {
         });
     } catch (e) {
         res.send({status: false, message: e.message});
+    }
+}
+
+exports.prizePurgeWinner = async (req, res) => {
+    try {
+        await PrizeModel.updateMany({
+            winPrize : true
+        }, {
+            winPrize : false
+        })
+        res.send({status: true});
+    } catch (e) {
+        res.send({status: false});
     }
 }
 

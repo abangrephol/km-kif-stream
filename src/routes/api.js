@@ -40,5 +40,6 @@ router.get('/chatUser/win/:userId', controller.chatUserWin)
 router.get('/prize/list', controller.prizeList)
 router.post('/prize/upload', uploadExcel, controller.prizeXlsUpload)
 router.get('/prize/win/:userId/:win', controller.prizeWin)
+router.get('/prize/win/purge', controller.prizePurgeWinner)
 
 module.exports = router;

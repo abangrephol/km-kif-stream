@@ -42,6 +42,8 @@ app.get('/', async (req, res) => {
     try {
         const isLiveSetting = await Setting.findOne({key: 'isLive'}).exec();
         let isLive = isLiveSetting ? isLiveSetting.value : false;
+        const liveChatSetting = await Setting.findOne({key: 'liveChat'}).exec();
+        let liveChat = liveChatSetting ? liveChatSetting.value : false;
         const isStaticSetting = await Setting.findOne({key: 'isStatic'}).exec();
         let isStatic = isStaticSetting ? isStaticSetting.value : false;
         const videoStaticSetting = await Setting.findOne({key: 'videoStatic'}).exec();
@@ -49,6 +51,7 @@ app.get('/', async (req, res) => {
         const streamHost = req.protocol + '://' + req.headers.host;
         let liveStreamObj = {
             layout: 'pages/layout',
+            liveChat,
             isLive,
             isStatic,
             videoStatic,
@@ -94,6 +97,8 @@ app.get('/stream-admin', async (req, res)  => {
     try {
         const isLiveSetting = await Setting.findOne({key: 'isLive'}).exec();
         let isLive = isLiveSetting ? isLiveSetting.value : false;
+        const liveChatSetting = await Setting.findOne({key: 'liveChat'}).exec();
+        let liveChat = liveChatSetting ? liveChatSetting.value : false;
         const isStaticSetting = await Setting.findOne({key: 'isStatic'}).exec();
         let isStatic = isStaticSetting ? isStaticSetting.value : false;
         const videoStaticSetting = await Setting.findOne({key: 'videoStatic'}).exec();
@@ -111,6 +116,7 @@ app.get('/stream-admin', async (req, res)  => {
 
         let adminObj = {
             layout: 'admin/layout',
+            liveChat,
             isLive,
             isStatic,
             videoStatic,

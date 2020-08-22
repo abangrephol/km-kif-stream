@@ -3,7 +3,7 @@
             flex-col bg-white">
     <%- include('partials/_video') %>
 </div>
-<% if (isLive == true) { %>
+<% if (liveChat == true) { %>
     <%- include('partials/_chat') %>
 <% } else { %>
     <%- include('partials/_sidebar_counter') %>

@@ -32,7 +32,7 @@
                     {
                         rollingInterval = setInterval(function(){
                             const rolled = chance.pickone(res.prizeAll);
-                            $rUser = $("<div class=''>"+rolled.nama+"</div>")
+                            $rUser = $("<div class=''>"+rolled.nik+"</div>")
                                 .delay(100)
                                 .queue(function(next) {
                                     $(this).remove();
