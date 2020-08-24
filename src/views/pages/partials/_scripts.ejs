@@ -54,19 +54,19 @@
             <% } else { %>
             this.videoJSplayer.updateSrc([
                 {
-                    src: '<%= streamHost %>' + ':8000/live/stream_720/index.m3u8',
+                    src: '<%= streamHost %>' + ':8443/live/stream_720/index.m3u8',
                     type: 'application/x-mpegURL',
                     label: '720',
                     res: 720
                 },
                 {
-                    src: '<%= streamHost %>' + ':8000/live/stream_480/index.m3u8',
+                    src: '<%= streamHost %>' + ':8443/live/stream_480/index.m3u8',
                     type: 'application/x-mpegURL',
                     label: '480',
                     res: 480
                 },
                 {
-                    src: '<%= streamHost %>' + ':8000/live/stream_360/index.m3u8',
+                    src: '<%= streamHost %>' + ':8443/live/stream_360/index.m3u8',
                     type: 'application/x-mpegURL',
                     label: '360',
                     res: 360
