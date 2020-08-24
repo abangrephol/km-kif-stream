@@ -1,5 +1,6 @@
 const path = require('path');
 const express = require('express');
+const https = require('https');
 const app = express();
 const winston = require('winston');
 const mongoose = require('mongoose');
@@ -8,6 +9,12 @@ const ChatUser = require('./models/chat-user.model');
 const Chat = require('./models/chat.model');
 const PrizeModel = require('./models/prize.model');
 var bodyParser = require('body-parser');
+
+var options = {
+    key: fs.readFileSync('../cert/private.pem'),
+    cert: fs.readFileSync('../cert/public.pem'),
+};
+
 
 mongoose.connect(process.env.DATABASE);
 mongoose.Promise = global.Promise;
@@ -136,7 +143,11 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use('/api', apiRoute);
 
-const server = app.listen(8080);
+// const server = app.listen(8080);
+const port = 8080;
+var server = https.createServer(options, app).listen(port, function(){
+    console.log("Express server listening on port " + port);
+});
 console.log('8080 is the magic port');
 
 let numUsers = 0;

@@ -11,6 +11,11 @@ module.exports = {
         allow_origin: '*',
         mediaroot: process.env.MEDIA_ROOT || '/app/media',
     },
+    https: {
+        port: 8443,
+        key:'../private.pem',
+        cert:'./public.pem',
+    },
     trans: {
         ffmpeg: process.env.FFMPEG_PATH || '/usr/bin/ffmpeg',
         tasks: [
