@@ -11,8 +11,8 @@ const PrizeModel = require('./models/prize.model');
 var bodyParser = require('body-parser');
 
 var options = {
-    key: fs.readFileSync('../cert/private.pem'),
-    cert: fs.readFileSync('../cert/public.pem'),
+    key: fs.readFileSync('./cert/private.pem'),
+    cert: fs.readFileSync('./cert/public.pem'),
 };
 
 
