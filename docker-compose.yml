@@ -9,6 +9,7 @@ services:
       - ./public:/app/public
       - ./media:/app/media
     ports:
+      - 8443:8443
       - 8000:8000
       - 8080:8080
       - 1935:1935
