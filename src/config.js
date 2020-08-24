@@ -13,8 +13,8 @@ module.exports = {
     },
     https: {
         port: 8443,
-        key: './src/cert/private.pem',
-        cert:'./src/cert/public.pem',
+        key: './cert/private.pem',
+        cert:'./cert/public.pem',
     },
     trans: {
         ffmpeg: process.env.FFMPEG_PATH || '/usr/bin/ffmpeg',
