@@ -6,8 +6,10 @@
     $(document).ready(function(){
         let picking = false;
         $winnerButton = $('.pick-winner');
+        $winnerStopButton = $('.stop-winner');
         $winnerText = $('.winner-text');
         $winnerRoller = $('.winner-roller');
+        let users = [];
 
         let rollingInterval;
 
@@ -16,9 +18,11 @@
                 picking = true;
                 $winnerText.addClass('hidden')
                 $winnerButton.addClass('opacity-0 transform scale-0')
+                $winnerStopButton.removeClass('opacity-0 transform scale-0')
             } else {
                 picking = false;
                 $winnerButton.removeClass('opacity-0 transform scale-0')
+                $winnerStopButton.addClass('opacity-0 transform scale-0')
             }
         }
         function rollingWinner() {
@@ -30,28 +34,26 @@
                 success : (res) => {
                     if (res.status)
                     {
+                        users = res.prizeList;
                         rollingInterval = setInterval(function(){
                             const rolled = chance.pickone(res.prizeAll);
                             $rUser = $("<div class=''>"+rolled.nik+"</div>")
-                                .delay(100)
+                                .delay(50)
                                 .queue(function(next) {
                                     $(this).remove();
                                     next();
                                 });
                             $winnerRoller.prepend($rUser)
-                        }, 200)
-
-                        setTimeout(function () {
-                            clearInterval(rollingInterval)
-                            const winner = chance.pickone(res.prizeList);
-                            pickWinner(winner);
-                        }, 5000)
+                        }, 100)
                     }
                 }
             });
         }
 
-        function pickWinner(winner) {
+        function pickWinner() {
+            console.log(users)
+            clearInterval(rollingInterval)
+            const winner = chance.pickone(users);
             $winnerRoller.addClass('hidden');
             $winnerText
                 .removeClass('hidden')
@@ -81,6 +83,10 @@
         $('.pick-winner button', document).on('click', function() {
             toggleWinnerDisplay(picking);
             rollingWinner();
+        })
+
+        $('.stop-winner button', document).on('click', function() {
+            pickWinner();
         })
     })
 </script>
