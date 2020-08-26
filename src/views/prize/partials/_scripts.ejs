@@ -51,7 +51,6 @@
         }
 
         function pickWinner() {
-            console.log(users)
             clearInterval(rollingInterval)
             const winner = chance.pickone(users);
             $winnerRoller.addClass('hidden');
