@@ -79,13 +79,28 @@
             })
         }
 
+        $(document).on('keypress',function(e) {
+            if(e.which == 13) {
+                if (picking === false) {
+                    toggleWinnerDisplay(picking);
+                    rollingWinner();
+                } else {
+                    pickWinner();
+                }
+            }
+        });
+
         $('.pick-winner button', document).on('click', function() {
-            toggleWinnerDisplay(picking);
-            rollingWinner();
+            if (picking === false) {
+                toggleWinnerDisplay(picking);
+                rollingWinner();
+            }
         })
 
         $('.stop-winner button', document).on('click', function() {
-            pickWinner();
+            if(picking) {
+                pickWinner();
+            }
         })
     })
 </script>

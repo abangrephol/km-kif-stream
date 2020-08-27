@@ -57,7 +57,7 @@ app.get('/', async (req, res) => {
         let isStatic = isStaticSetting ? isStaticSetting.value : false;
         const videoStaticSetting = await Setting.findOne({key: 'videoStatic'}).exec();
         let videoStatic = videoStaticSetting ? videoStaticSetting.value : null;
-        const streamHost = req.protocol + '://' + req.headers.host;
+        const streamHost = process.env.STREAM_HOST ? process.env.STREAM_HOST : req.protocol + '://' + req.headers.host;
         let liveStreamObj = {
             layout: 'pages/layout',
             liveChat,
