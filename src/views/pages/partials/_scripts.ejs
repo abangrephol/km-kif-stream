@@ -87,11 +87,10 @@
             ]);
             <% } else { %>
             this.videoJSplayer.updateSrc([
-
                 {
-                    src: 'wss://<%= streamHost %>' + ':8443/live/stream.flv',
+                    src: 'wss://<%= streamHost %>' + ':8443/live/stream_480.flv',
                     type: 'video/x-flv',
-                    label: '720',
+                    label: 'LIVE',
                     res: 720
                 },
                 /*{
