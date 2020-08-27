@@ -16,45 +16,45 @@ module.exports = {
         key: './cert/private.pem',
         cert:'./cert/public.pem',
     },
-    trans: {
-        ffmpeg: process.env.FFMPEG_PATH || '/usr/bin/ffmpeg',
-        tasks: [
-            {
-                app: 'live',
-                hls: true,
-                ac: "aac",
-                hlsFlags: '[hls_time=5:hls_list_size=10:hls_flags=delete_segments]',
-            }
-        ]
-    },
-    fission: {
-        ffmpeg: process.env.FFMPEG_PATH || '/usr/bin/ffmpeg',
-        tasks: [
-            {
-                rule: "live/*",
-                model: [
-                    {
-                        ab: "128k",
-                        vb: "1500k",
-                        vs: "1280x720",
-                        vf: "30",
-                    },
-                    {
-                        ab: "64k",
-                        vb: "1000k",
-                        vs: "854x480",
-                        vf: "24",
-                    },
-                    {
-                        ab: "32k",
-                        vb: "600k",
-                        vs: "640x360",
-                        vf: "20",
-                    },
-                ]
-            },
-        ]
-    },
+    // trans: {
+    //     ffmpeg: process.env.FFMPEG_PATH || '/usr/bin/ffmpeg',
+    //     tasks: [
+    //         {
+    //             app: 'live',
+    //             hls: true,
+    //             ac: "aac",
+    //             hlsFlags: '[hls_time=5:hls_list_size=10:hls_flags=delete_segments]',
+    //         }
+    //     ]
+    // },
+    // fission: {
+    //     ffmpeg: process.env.FFMPEG_PATH || '/usr/bin/ffmpeg',
+    //     tasks: [
+    //         {
+    //             rule: "live/*",
+    //             model: [
+    //                 {
+    //                     ab: "128k",
+    //                     vb: "1500k",
+    //                     vs: "1280x720",
+    //                     vf: "30",
+    //                 },
+    //                 {
+    //                     ab: "64k",
+    //                     vb: "1000k",
+    //                     vs: "854x480",
+    //                     vf: "24",
+    //                 },
+    //                 {
+    //                     ab: "32k",
+    //                     vb: "600k",
+    //                     vs: "640x360",
+    //                     vf: "20",
+    //                 },
+    //             ]
+    //         },
+    //     ]
+    // },
     // trans: {
     //   ffmpeg: process.env.FFMPEG_PATH || '/usr/bin/ffmpeg',
     //   tasks: [

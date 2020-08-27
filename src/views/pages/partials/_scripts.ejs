@@ -4,6 +4,8 @@
 <script src="js/jquery.countdown.min.js"></script>
 <script src="js/video.min.js"></script>
 <script src="js/videojs-resolution-switcher.min.js"></script>
+<script src="js/flv.min.js"></script>
+<script src="js/videojs-flvjs.min.js"></script>
 <% if (isLive) { %>
     <script src="js/socket.io.js"></script>
     <script src="js/chat.js"></script>
@@ -43,6 +45,15 @@
                     autoplay: true,
                     preload: 'auto'
                 },
+                techOrder: ['html5', 'flvjs'],
+                flvjs: {
+                    mediaDataSource: {
+                        isLive: true,
+                        cors: true,
+                        withCredentials: false,
+                    },
+                    // config: {},
+                },
                 plugins: {
                     videoJsResolutionSwitcher: {
                         default: 720,
@@ -76,7 +87,14 @@
             ]);
             <% } else { %>
             this.videoJSplayer.updateSrc([
+
                 {
+                    src: 'wss://<%= streamHost %>' + ':8443/live/stream.flv',
+                    type: 'video/x-flv',
+                    label: '720',
+                    res: 720
+                },
+                /*{
                     src: '<%= streamHost %>' + ':8443/live/stream_720/index.m3u8',
                     type: 'application/x-mpegURL',
                     label: '720',
@@ -93,7 +111,7 @@
                     type: 'application/x-mpegURL',
                     label: '360',
                     res: 360
-                },
+                },*/
             ]);
             <% } %>
             this.videoJSplayer.on('resolutionchange', function(){
