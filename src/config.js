@@ -27,34 +27,34 @@ module.exports = {
     //         }
     //     ]
     // },
-    // fission: {
-    //     ffmpeg: process.env.FFMPEG_PATH || '/usr/bin/ffmpeg',
-    //     tasks: [
-    //         {
-    //             rule: "live/*",
-    //             model: [
-    //                 {
-    //                     ab: "128k",
-    //                     vb: "1500k",
-    //                     vs: "1280x720",
-    //                     vf: "30",
-    //                 },
-    //                 {
-    //                     ab: "64k",
-    //                     vb: "1000k",
-    //                     vs: "854x480",
-    //                     vf: "24",
-    //                 },
-    //                 {
-    //                     ab: "32k",
-    //                     vb: "600k",
-    //                     vs: "640x360",
-    //                     vf: "20",
-    //                 },
-    //             ]
-    //         },
-    //     ]
-    // },
+    fission: {
+        ffmpeg: process.env.FFMPEG_PATH || '/usr/bin/ffmpeg',
+        tasks: [
+            {
+                rule: "live/*",
+                model: [
+                    {
+                        ab: "128k",
+                        vb: "1500k",
+                        vs: "1280x720",
+                        vf: "30",
+                    },
+                    {
+                        ab: "64k",
+                        vb: "1000k",
+                        vs: "854x480",
+                        vf: "24",
+                    },
+                    {
+                        ab: "32k",
+                        vb: "600k",
+                        vs: "640x360",
+                        vf: "20",
+                    },
+                ]
+            },
+        ]
+    },
     // trans: {
     //   ffmpeg: process.env.FFMPEG_PATH || '/usr/bin/ffmpeg',
     //   tasks: [
